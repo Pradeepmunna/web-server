@@ -38,6 +38,17 @@ if (!_.isBoolean(body.completed) || !_.isString(body.description) || body.descri
     	    	todos.push(body);
     	    	res.json(body);			
 });
+app.delete('/todos/:id',function(req,res){
+	var todoId = parseInt(req.params.id,10);
+	var matchedTodo=_.findWhere(todos,{id:todoId});
+	if(!matchedTodo){
+		res.status(404).send("error");
+	}
+	else{
+			todos=_.without(todos,matchedTodo);
+			res.json(matchedTodo);
+	}
+});
 app.listen(PORT,function() {
 	console.log('express on port '+PORT);
 });
